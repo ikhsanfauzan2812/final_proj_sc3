@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe — Smart Compact Climate Controller</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 40px; color: #333; }
+  .page-title { font-size: 13px; font-weight: bold; color: #333; margin-bottom: 6px; }
+  .wireframe { background: white; border: 1px solid #ccc; width: 900px; margin: 0 auto 60px auto; }
+  .wf-topbar { background: #e0e0e0; padding: 6px 10px; font-size: 10px; color: #555; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; }
+  .wf-body { display: flex; min-height: 480px; }
+  .wf-sidebar { width: 160px; border-right: 1px solid #ccc; padding: 12px; background: #f5f5f5; flex-shrink: 0; }
+  .wf-content { flex: 1; padding: 16px; }
+  .box { background: #e8e8e8; border: 1px solid #bbb; margin-bottom: 10px; padding: 10px; font-size: 11px; color: #555; }
+  .box-label { font-size: 9px; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .box-text { font-size: 11px; color: #444; }
+  .row { display: flex; gap: 10px; margin-bottom: 10px; }
+  .row > .box { flex: 1; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .sidebar-item { background: #ddd; border: 1px solid #bbb; padding: 8px; margin-bottom: 6px; font-size: 10px; color: #555; }
+  .sidebar-item.active { background: #ccc; border-color: #999; font-weight: bold; }
+  .btn { background: #ccc; border: 1px solid #aaa; padding: 8px 14px; font-size: 11px; color: #444; display: inline-block; }
+  .btn-full { display: block; text-align: center; width: 100%; }
+  .input-box { background: #e8e8e8; border: 1px solid #bbb; padding: 8px 10px; font-size: 10px; color: #888; margin-bottom: 8px; }
+  .badge { display: inline-block; background: #ddd; border: 1px solid #aaa; padding: 5px 16px; font-size: 11px; color: #555; border-radius: 20px; }
+  .caption { text-align: center; font-size: 12px; font-style: italic; color: #444; margin-top: 8px; }
+  .section-label { font-size: 10px; font-weight: bold; color: #666; margin-bottom: 6px; text-transform: uppercase; border-bottom: 1px solid #ddd; padding-bottom: 3px; }
+  .tall { min-height: 80px; }
+  .circle { width: 120px; height: 120px; border-radius: 50%; background: #ddd; border: 2px solid #bbb; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #666; margin: 0 auto 10px; }
+  .toggle { width: 70px; height: 32px; background: #ddd; border: 1px solid #bbb; border-radius: 16px; margin: 0 auto 8px; }
+  hr-section { display: block; border-top: 1px solid #ddd; margin: 10px 0; }
+  .annotations { background: #fafafa; border-top: 1px solid #ddd; padding: 8px 12px; font-size: 9px; color: #888; }
+  h1.wf-h1 { font-size: 13px; font-weight: bold; color: #333; margin-bottom: 4px; }
+  p.wf-sub { font-size: 10px; color: #888; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ===================== HALAMAN 1: LOGIN ===================== -->
+<p class="page-title">Wireframe — Halaman Login (/login)</p>
+<div class="wireframe">
+  <div class="wf-topbar">
+    <span>Route: /login</span><span>Source: app/login/page.tsx</span><span>Mode: No Sidebar</span>
+  </div>
+  <div style="display:flex; align-items:center; justify-content:center; min-height:400px; padding:30px; background:#fafafa;">
+    <div style="width:320px;">
+      <div class="box" style="text-align:center; padding:16px; margin-bottom:12px;">
+        <div class="box-label">Brand Header</div>
+        <div class="box-text" style="font-weight:bold;">SMART COMPACT</div>
+        <div style="font-size:9px; color:#aaa;">CLIMATE CONTROLLER</div>
+      </div>
+      <div class="row" style="margin-bottom:12px;">
+        <div class="box" style="text-align:center; padding:8px;">
+          <div class="box-text" style="font-weight:bold;">Masuk</div>
+        </div>
+        <div class="box" style="text-align:center; padding:8px; background:#f0f0f0;">
+          <div class="box-text">Daftar Akun</div>
+        </div>
+      </div>
+      <div class="box-label">Input Email</div>
+      <div class="input-box">[ Icon ] Masukkan email Anda...</div>
+      <div class="box-label">Input Password</div>
+      <div class="input-box">[ Icon ] Masukkan password Anda...</div>
+      <div class="btn btn-full" style="margin-top:8px;">[ Icon ] Masuk ke Dashboard</div>
+    </div>
+  </div>
+  <div class="annotations">
+    Analisis Komponen: 1. Halaman tanpa sidebar — full-center layout. 2. Tab switcher Masuk / Daftar Akun. 3. Form autentikasi email & password. 4. Tombol submit mengarah ke halaman dashboard (/).
+  </div>
+</div>
+<p class="caption">Gambar 3.X Desain Web Halaman Login</p>
+<br><br>
+
+<!-- ===================== HALAMAN 2: RINGKASAN (/) ===================== -->
+<p class="page-title">Wireframe — Halaman Ringkasan Real-time (/)</p>
+<div class="wireframe">
+  <div class="wf-topbar">
+    <span>Route: /</span><span>Source: app/page.tsx</span><span>Mode: With Sidebar</span>
+  </div>
+  <div class="wf-body">
+    <div class="wf-sidebar">
+      <div class="sidebar-item" style="font-weight:bold; font-size:9px; margin-bottom:10px;">SMART COMPACT<br><span style="font-weight:normal;">CLIMATE CONTROLLER</span></div>
+      <div class="sidebar-item active">📊 Ringkasan</div>
+      <div class="sidebar-item">🤖 Smart Auto-Pilot</div>
+      <div class="sidebar-item">📈 Analitik & Historis</div>
+      <div class="sidebar-item">⚙️ Konfigurasi Jaringan</div>
+      <div style="margin-top:auto; position:absolute; bottom:16px; left:8px; right:8px;">
+        <div class="sidebar-item" style="font-size:9px;">👤 user@email.com<br>Pemilik Akun</div>
+        <div class="sidebar-item" style="color:#c00; font-size:10px;">↩ Keluar</div>
+      </div>
+    </div>
+    <div class="wf-content">
+      <h1 class="wf-h1">Ringkasan Real-time</h1>
+      <p class="wf-sub">⚡ Realtime: Terkoneksi (Live) &nbsp;|&nbsp; 💻 AC Kamar Utama (40:4C:CA:55:1D:18) &nbsp; ● Online &nbsp; [Unpair]</p>
+
+      <!-- Banner Auto-Discovery -->
+      <div class="box" style="border:1px dashed #999; padding:14px; margin-bottom:10px;">
+        <div class="box-label">📡 Banner Auto-Discovery (kondisional — muncul saat ada perangkat belum dipasangkan)</div>
+        <div class="row">
+          <div class="box" style="width:50px; min-width:50px; text-align:center;">[ Radar Anim ]</div>
+          <div class="box" style="flex:1;">Perangkat Sekitar Terdeteksi! MAC: XX:XX:XX:XX:XX:XX</div>
+          <div class="box" style="width:140px;">[ Input Nama ] &nbsp; [+ Hubungkan]</div>
+        </div>
+      </div>
+
+      <!-- Comfort Status -->
+      <div class="box" style="text-align:center; padding:20px; margin-bottom:10px;">
+        <div class="section-label">Status Kondisi Ruangan</div>
+        <div class="badge" style="margin:8px auto;">NYAMAN / KURANG NYAMAN / TIDAK NYAMAN</div>
+        <div style="font-size:9px; color:#aaa; margin-top:8px;">Pembaruan Terakhir: dd MMM HH:mm:ss</div>
+      </div>
+
+      <!-- Sensor Cards -->
+      <div class="box" style="padding:12px;">
+        <div class="section-label">Parameter Sensor Saat Ini</div>
+        <div class="grid-5">
+          <div class="box" style="text-align:center;"><div class="box-label">TEMPERATURE</div><div class="box-text" style="font-size:14px; font-weight:bold;">-- °C</div></div>
+          <div class="box" style="text-align:center;"><div class="box-label">HUMIDITY</div><div class="box-text" style="font-size:14px; font-weight:bold;">-- %</div></div>
+          <div class="box" style="text-align:center;"><div class="box-label">PRESSURE</div><div class="box-text" style="font-size:14px; font-weight:bold;">---- hPa</div></div>
+          <div class="box" style="text-align:center;"><div class="box-label">VOC GAS</div><div class="box-text" style="font-size:14px; font-weight:bold;">-- KΩ</div></div>
+          <div class="box" style="text-align:center;"><div class="box-label">MOTION (PIR)</div><div class="box-text" style="font-size:14px; font-weight:bold;">Aman</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotations">
+    Analisis Komponen: 1. Sidebar navigasi dengan status user & tombol keluar. 2. Header status realtime + info perangkat aktif. 3. Banner Auto-Discovery (kondisional). 4. Panel status kenyamanan (Decision Tree). 5. Grid 5 kartu parameter sensor real-time.
+  </div>
+</div>
+<p class="caption">Gambar 3.X Desain Web Halaman Ringkasan Real-time</p>
+<br><br>
+
+<!-- ===================== HALAMAN 3: SMART AUTO-PILOT ===================== -->
+<p class="page-title">Wireframe — Halaman Smart Auto-Pilot (/automation)</p>
+<div class="wireframe">
+  <div class="wf-topbar">
+    <span>Route: /automation</span><span>Source: app/automation/page.tsx</span><span>Mode: With Sidebar</span>
+  </div>
+  <div class="wf-body">
+    <div class="wf-sidebar">
+      <div class="sidebar-item" style="font-weight:bold; font-size:9px; margin-bottom:10px;">SMART COMPACT</div>
+      <div class="sidebar-item">📊 Ringkasan</div>
+      <div class="sidebar-item active">🤖 Smart Auto-Pilot</div>
+      <div class="sidebar-item">📈 Analitik & Historis</div>
+      <div class="sidebar-item">⚙️ Konfigurasi Jaringan</div>
+    </div>
+    <div class="wf-content">
+      <h1 class="wf-h1">Smart Auto-Pilot</h1>
+      <p class="wf-sub">Pusat kendali cerdas yang memastikan ruangan Anda selalu nyaman secara otomatis.</p>
+      <div class="row" style="align-items:flex-start;">
+        <!-- Kolom Kiri -->
+        <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
+          <div class="box" style="text-align:center; padding:16px;">
+            <div class="section-label">Master Switch</div>
+            <p style="font-size:9px; color:#888; margin-bottom:10px;">Mengaktifkan mode otomatis berdasarkan klasifikasi Decision Tree.</p>
+            <div class="toggle"></div>
+            <div class="badge" style="font-size:9px;">STATUS: AKTIF (AUTO) / NON-AKTIF (MANUAL)</div>
+            <!-- Nested Remote (muncul saat NON-AKTIF) -->
+            <div style="border-top:1px solid #ddd; margin-top:10px; padding-top:10px;">
+              <div class="box-label">🎮 Kontrol AC Manual (muncul saat mode MANUAL)</div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="font-size:9px;">Target AC:</span>
+                <div class="input-box" style="width:80px; padding:3px 6px; margin:0;">[ Select Model ]</div>
+              </div>
+              <div class="circle">Dial °C</div>
+              <div class="row" style="justify-content:center; gap:6px; margin-bottom:6px;">
+                <div class="btn" style="padding:5px 12px;">−</div>
+                <div class="btn" style="padding:5px 12px;">+</div>
+              </div>
+              <div class="input-box" style="margin-bottom:6px;">[ Select: Auto / Low / Mid / High Fan ]</div>
+              <div class="grid-5" style="gap:4px;">
+                <div class="box" style="text-align:center; padding:5px; font-size:9px;">⏻ Off</div>
+                <div class="box" style="text-align:center; padding:5px; font-size:9px;">💧 Dry</div>
+                <div class="box" style="text-align:center; padding:5px; font-size:9px;">❄ Cool</div>
+                <div class="box" style="text-align:center; padding:5px; font-size:9px;">🔥 Heat</div>
+                <div class="box" style="text-align:center; padding:5px; font-size:9px;">💨 Fan</div>
+              </div>
+            </div>
+          </div>
+          <div class="box" style="text-align:center; padding:16px;">
+            <div class="section-label">PIR Motion Auto-Trigger</div>
+            <p style="font-size:9px; color:#888; margin-bottom:10px;">AC aktif otomatis saat sensor mendeteksi kehadiran.</p>
+            <div class="toggle"></div>
+            <div class="badge" style="font-size:9px;">STATUS: AKTIF / NON-AKTIF</div>
+          </div>
+        </div>
+        <!-- Kolom Kanan -->
+        <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
+          <div class="box tall" style="padding:14px;">
+            <div class="section-label">✨ Sentuhan Cerdas — Kondisi Otomatis</div>
+            <div class="box" style="margin-bottom:6px; border-left:3px solid #bbb;"><div class="box-text">Kondisi 1: Tidak Ada Orang (PIR Aman)</div></div>
+            <div class="box" style="margin-bottom:6px; border-left:3px solid #bbb;"><div class="box-text">Kondisi 2: Suhu / VOC Tinggi</div></div>
+            <div class="box" style="border-left:3px solid #bbb;"><div class="box-text">Kondisi 3: Zona Nyaman</div></div>
+          </div>
+          <div class="box tall" style="padding:14px;">
+            <div class="section-label">🚶 Smart Motion Sense</div>
+            <div class="box" style="margin-bottom:6px; border-left:3px solid #bbb;"><div class="box-text">Kehadiran Spontan</div></div>
+            <div class="box" style="border-left:3px solid #bbb;"><div class="box-text">Sinergi dengan Auto-Pilot</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotations">
+    Analisis Komponen: 1. Kolom kiri: Master Switch toggle + remote AC manual (kondisional). 2. Kolom kiri bawah: PIR Auto-Trigger toggle. 3. Kolom kanan: panel penjelasan kondisi otomatis sistem.
+  </div>
+</div>
+<p class="caption">Gambar 3.X Desain Web Halaman Smart Auto-Pilot</p>
+<br><br>
+
+<!-- ===================== HALAMAN 4: ANALITIK ===================== -->
+<p class="page-title">Wireframe — Halaman Analitik & Historis (/analytics)</p>
+<div class="wireframe">
+  <div class="wf-topbar">
+    <span>Route: /analytics</span><span>Source: app/analytics/page.tsx</span><span>Mode: With Sidebar</span>
+  </div>
+  <div class="wf-body">
+    <div class="wf-sidebar">
+      <div class="sidebar-item" style="font-weight:bold; font-size:9px; margin-bottom:10px;">SMART COMPACT</div>
+      <div class="sidebar-item">📊 Ringkasan</div>
+      <div class="sidebar-item">🤖 Smart Auto-Pilot</div>
+      <div class="sidebar-item active">📈 Analitik & Historis</div>
+      <div class="sidebar-item">⚙️ Konfigurasi Jaringan</div>
+      <div style="margin-top:14px;">
+        <div class="section-label">Filter Data</div>
+        <div class="box-label">Tanggal Mulai</div>
+        <div class="input-box">[ Date Picker ]</div>
+        <div class="box-label">Tanggal Selesai</div>
+        <div class="input-box">[ Date Picker ]</div>
+        <div class="btn btn-full">Terapkan Filter</div>
+        <div style="margin-top:10px; border-top:1px solid #ddd; padding-top:8px;">
+          <div class="section-label">Rata-rata Periode</div>
+          <div style="font-size:9px; color:#666;">Temperature: -- °C</div>
+          <div style="font-size:9px; color:#666;">Humidity: -- %</div>
+          <div style="font-size:9px; color:#666;">Pressure: -- hPa</div>
+          <div style="font-size:9px; color:#666;">VOC: -- KΩ</div>
+        </div>
+      </div>
+    </div>
+    <div class="wf-content">
+      <h1 class="wf-h1">Analitik & Historis</h1>
+      <p class="wf-sub">Pantau pola kualitas udara dan optimalkan kenyamanan ruangan Anda.</p>
+      <div class="box tall" style="margin-bottom:8px; min-height:90px;">
+        <div class="section-label">Grafik Suhu / Temperature (°C)</div>
+        <div style="text-align:center; padding:20px; color:#aaa; font-size:10px;">[[[  Line Chart — Data Historis Suhu  ]]]</div>
+      </div>
+      <div class="box tall" style="margin-bottom:8px; min-height:90px;">
+        <div class="section-label">Grafik Kelembapan / Humidity (%)</div>
+        <div style="text-align:center; padding:20px; color:#aaa; font-size:10px;">[[[  Line Chart — Data Historis Kelembapan  ]]]</div>
+      </div>
+      <div class="box tall" style="margin-bottom:8px; min-height:90px;">
+        <div class="section-label">Grafik Gas Volatile / VOC (KΩ)</div>
+        <div style="text-align:center; padding:20px; color:#aaa; font-size:10px;">[[[  Line Chart — Data Historis VOC  ]]]</div>
+      </div>
+      <div class="box tall" style="min-height:90px;">
+        <div class="section-label">Grafik Tekanan Udara / Pressure (hPa)</div>
+        <div style="text-align:center; padding:20px; color:#aaa; font-size:10px;">[[[  Line Chart — Data Historis Tekanan  ]]]</div>
+      </div>
+    </div>
+  </div>
+  <div class="annotations">
+    Analisis Komponen: 1. Sidebar kiri berisi filter rentang tanggal dan ringkasan rata-rata. 2. Area utama menampilkan 4 grafik line chart interaktif untuk tiap parameter sensor. 3. Data diambil langsung dari Supabase berdasarkan rentang tanggal yang dipilih.
+  </div>
+</div>
+<p class="caption">Gambar 3.X Desain Web Halaman Analitik & Historis</p>
+<br><br>
+
+<!-- ===================== HALAMAN 5: KONFIGURASI JARINGAN ===================== -->
+<p class="page-title">Wireframe — Halaman Konfigurasi Jaringan (/config)</p>
+<div class="wireframe">
+  <div class="wf-topbar">
+    <span>Route: /config</span><span>Source: app/config/page.tsx</span><span>Mode: With Sidebar</span>
+  </div>
+  <div class="wf-body">
+    <div class="wf-sidebar">
+      <div class="sidebar-item" style="font-weight:bold; font-size:9px; margin-bottom:10px;">SMART COMPACT</div>
+      <div class="sidebar-item">📊 Ringkasan</div>
+      <div class="sidebar-item">🤖 Smart Auto-Pilot</div>
+      <div class="sidebar-item">📈 Analitik & Historis</div>
+      <div class="sidebar-item active">⚙️ Konfigurasi Jaringan</div>
+    </div>
+    <div class="wf-content">
+      <h1 class="wf-h1">Konfigurasi Jaringan</h1>
+      <p class="wf-sub">Atur koneksi Wi-Fi untuk perangkat Smart Climate Controller.</p>
+
+      <!-- Method Selector -->
+      <div class="row" style="margin-bottom:12px;">
+        <div class="box" style="flex:1; text-align:center; padding:14px; border:2px solid #aaa;">
+          <div style="font-size:18px; margin-bottom:4px;">☁</div>
+          <div class="box-text" style="font-weight:bold;">Via Cloud</div>
+          <div style="font-size:9px; color:#888; margin-top:3px;">Kirim lewat Supabase.<br>ESP32 tidak perlu 1 jaringan.</div>
+        </div>
+        <div class="box" style="flex:1; text-align:center; padding:14px; background:#f0f0f0;">
+          <div style="font-size:18px; margin-bottom:4px;">📡</div>
+          <div class="box-text">Via Langsung</div>
+          <div style="font-size:9px; color:#888; margin-top:3px;">HTTP ke ESP32.<br>Harus 1 jaringan / hotspot.</div>
+        </div>
+      </div>
+
+      <!-- Form Panel -->
+      <div class="box" style="padding:16px; max-width:500px;">
+
+        <!-- Info Banner -->
+        <div class="box" style="padding:10px; margin-bottom:12px; background:#f5f5f5;">
+          <div class="box-label">Mode Cloud (Direkomendasikan)</div>
+          <div style="font-size:9px; color:#666; line-height:1.5;">
+            Perintah dikirim ke Supabase. ESP32 yang sedang online akan mengambil perintah ini saat polling berikutnya (~5 detik) dan restart otomatis.<br>
+            ⚠ ESP32 harus sedang online dan terhubung ke internet.
+          </div>
+        </div>
+
+        <!-- Target Perangkat -->
+        <div class="box" style="padding:8px; margin-bottom:10px; background:#f0f0f0;">
+          <div style="font-size:9px; color:#666;">Target perangkat: <strong>AC Kamar Utama (40:4C:CA:55:1D:18)</strong></div>
+        </div>
+
+        <!-- IP Field (kondisional, muncul saat mode Langsung) -->
+        <div style="border:1px dashed #bbb; padding:8px; margin-bottom:10px; background:#fafafa;">
+          <div class="box-label">IP Perangkat (kondisional — hanya mode Via Langsung)</div>
+          <div class="input-box">192.168.4.1</div>
+        </div>
+
+        <!-- SSID -->
+        <div class="box-label">Nama Wi-Fi Baru (SSID)</div>
+        <div class="input-box">Masukkan nama Wi-Fi...</div>
+
+        <!-- Password -->
+        <div class="box-label">Password Wi-Fi</div>
+        <div class="input-box">Masukkan password Wi-Fi...</div>
+        <div style="font-size:9px; color:#aaa; margin-bottom:10px;">Kosongkan jika jaringan tidak menggunakan password.</div>
+
+        <!-- Submit Button -->
+        <div class="btn btn-full">[ Icon ] Kirim via Cloud / Kirim Langsung ke ESP32</div>
+
+        <!-- Notifikasi (kondisional) -->
+        <div class="box" style="margin-top:10px; border-left:3px solid #bbb; padding:8px; background:#f5f5f5;">
+          <div class="box-label">Notifikasi Status (kondisional)</div>
+          <div style="font-size:9px; color:#666;">[ ✓ Sukses ] Perintah berhasil dikirim / [ ✗ Error ] Gagal terhubung ke perangkat.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="annotations">
+    Analisis Komponen: 1. Method selector: dua tombol pilihan Via Cloud atau Via Langsung. 2. Info banner menjelaskan syarat dan cara kerja masing-masing metode. 3. Indikator target perangkat yang sedang terpasang. 4. Field IP Perangkat muncul hanya saat mode Via Langsung dipilih. 5. Form input SSID dan Password. 6. Notifikasi sukses/error kondisional setelah submit.
+  </div>
+</div>
+<p class="caption">Gambar 3.X Desain Web Halaman Konfigurasi Jaringan</p>
+<br><br>
+
+</body>
+</html>

@@ -181,19 +181,53 @@ const char* htmlPage = R"rawliteral(
             <form onsubmit="saveAcModel(event)">
                 <label style="color:#ccc; font-size:14px; display:block; margin-bottom:8px;">Merek & Model AC</label>
                 <select id="ac-model" style="width:100%; padding:14px; margin-bottom:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:white; outline:none; font-family:inherit;">
-                    <optgroup label="SHARP">
-                        <option value="SHARP:A907">SHARP:A907</option>
-                        <option value="SHARP:A903">SHARP:A903</option>
-                        <option value="SHARP:A705">SHARP:A705</option>
+                    <optgroup label="DAIKIN">
+                        <option value="DAIKIN:Default">DAIKIN (Standard)</option>
+                    </optgroup>
+                    <optgroup label="FUJITSU">
+                        <option value="FUJITSU:Default">FUJITSU (Standard)</option>
                     </optgroup>
                     <optgroup label="GREE">
-                        <option value="GREE:Default">GREE:Default</option>
+                        <option value="GREE:Default">GREE (Standard)</option>
+                    </optgroup>
+                    <optgroup label="HAIER">
+                        <option value="HAIER:Default">HAIER (Standard)</option>
+                    </optgroup>
+                    <optgroup label="HITACHI">
+                        <option value="HITACHI:Default">HITACHI (Standard)</option>
+                    </optgroup>
+                    <optgroup label="LG">
+                        <option value="LG:Default">LG (Standard)</option>
                     </optgroup>
                     <optgroup label="MIDEA">
-                        <option value="MIDEA:Default">MIDEA:Default</option>
+                        <option value="MIDEA:Default">MIDEA (Standard)</option>
+                    </optgroup>
+                    <optgroup label="MITSUBISHI">
+                        <option value="MITSUBISHI:Default">MITSUBISHI Electric</option>
+                        <option value="MITSUBISHI_HEAVY:Default">MITSUBISHI Heavy Industries</option>
+                    </optgroup>
+                    <optgroup label="PANASONIC">
+                        <option value="PANASONIC:Default">PANASONIC (Standard)</option>
                     </optgroup>
                     <optgroup label="SAMSUNG">
-                        <option value="SAMSUNG:Default">SAMSUNG:Default</option>
+                        <option value="SAMSUNG:Default">SAMSUNG (Standard)</option>
+                    </optgroup>
+                    <optgroup label="SANYO">
+                        <option value="SANYO:Default">SANYO (Standard)</option>
+                    </optgroup>
+                    <optgroup label="SHARP">
+                        <option value="SHARP:A907">SHARP A907</option>
+                        <option value="SHARP:A903">SHARP A903</option>
+                        <option value="SHARP:A705">SHARP A705</option>
+                    </optgroup>
+                    <optgroup label="TCL">
+                        <option value="TCL:Default">TCL (Standard)</option>
+                    </optgroup>
+                    <optgroup label="TOSHIBA">
+                        <option value="TOSHIBA:Default">TOSHIBA (Standard)</option>
+                    </optgroup>
+                    <optgroup label="WHIRLPOOL">
+                        <option value="WHIRLPOOL:Default">WHIRLPOOL (Standard)</option>
                     </optgroup>
                 </select>
                 

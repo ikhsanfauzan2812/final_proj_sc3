@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS app_settings (
   id integer PRIMARY KEY DEFAULT 1,
   auto_mode boolean DEFAULT false,
+  pir_auto_mode boolean DEFAULT false,
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now())
 );
 

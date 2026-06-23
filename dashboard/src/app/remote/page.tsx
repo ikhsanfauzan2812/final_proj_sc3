@@ -5,7 +5,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { Power, Droplets, Snowflake, Wind, Flame, Plus, Minus, ChevronDown } from 'lucide-react';
 
 export default function RemoteControl() {
-  const [acModel, setAcModel] = useState('GREE');
+  const [acModel, setAcModel] = useState('GREE:Default');
   const [acLoading, setAcLoading] = useState(false);
   
   // State for HA Climate Card
@@ -13,6 +13,37 @@ export default function RemoteControl() {
   const [mode, setMode] = useState('cool'); // cool, dry, fan, heat
   const [fanSpeed, setFanSpeed] = useState('auto'); // auto, low, mid, high
   const [isOn, setIsOn] = useState(true);
+
+  // Sync state with Supabase on mount
+  useEffect(() => {
+    const fetchLastState = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('device_commands')
+          .select('payload')
+          .eq('command', 'SET_AC')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+          
+        if (data && data.payload) {
+          const p = JSON.parse(data.payload);
+          if (p.model) setAcModel(p.model);
+          if (p.temp) setTemp(p.temp);
+          if (p.fan) setFanSpeed(p.fan);
+          if (p.power) {
+            setIsOn(p.power === 'on');
+            if (p.power === 'on' && p.mode && p.mode !== 'off') {
+              setMode(p.mode);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Gagal mengambil state AC terakhir:", err);
+      }
+    };
+    fetchLastState();
+  }, []);
 
   // Interaction state
   const [isDragging, setIsDragging] = useState(false);
@@ -179,10 +210,54 @@ export default function RemoteControl() {
               cursor: 'pointer'
             }}
           >
-            <option value="GREE" style={{ background: '#1c1c1c', color: '#fff' }}>GREE</option>
-            <option value="SHARP" style={{ background: '#1c1c1c', color: '#fff' }}>SHARP</option>
-            <option value="MIDEA" style={{ background: '#1c1c1c', color: '#fff' }}>MIDEA</option>
-            <option value="SAMSUNG" style={{ background: '#1c1c1c', color: '#fff' }}>SAMSUNG</option>
+            <optgroup label="DAIKIN" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="DAIKIN:Default" style={{ background: '#1c1c1c', color: '#fff' }}>DAIKIN</option>
+            </optgroup>
+            <optgroup label="FUJITSU" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="FUJITSU:Default" style={{ background: '#1c1c1c', color: '#fff' }}>FUJITSU</option>
+            </optgroup>
+            <optgroup label="GREE" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="GREE:Default" style={{ background: '#1c1c1c', color: '#fff' }}>GREE</option>
+            </optgroup>
+            <optgroup label="HAIER" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="HAIER:Default" style={{ background: '#1c1c1c', color: '#fff' }}>HAIER</option>
+            </optgroup>
+            <optgroup label="HITACHI" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="HITACHI:Default" style={{ background: '#1c1c1c', color: '#fff' }}>HITACHI</option>
+            </optgroup>
+            <optgroup label="LG" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="LG:Default" style={{ background: '#1c1c1c', color: '#fff' }}>LG</option>
+            </optgroup>
+            <optgroup label="MIDEA" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="MIDEA:Default" style={{ background: '#1c1c1c', color: '#fff' }}>MIDEA</option>
+            </optgroup>
+            <optgroup label="MITSUBISHI" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="MITSUBISHI:Default" style={{ background: '#1c1c1c', color: '#fff' }}>MITSUBISHI Electric</option>
+              <option value="MITSUBISHI_HEAVY:Default" style={{ background: '#1c1c1c', color: '#fff' }}>MITSUBISHI Heavy Industries</option>
+            </optgroup>
+            <optgroup label="PANASONIC" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="PANASONIC:Default" style={{ background: '#1c1c1c', color: '#fff' }}>PANASONIC</option>
+            </optgroup>
+            <optgroup label="SAMSUNG" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="SAMSUNG:Default" style={{ background: '#1c1c1c', color: '#fff' }}>SAMSUNG</option>
+            </optgroup>
+            <optgroup label="SANYO" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="SANYO:Default" style={{ background: '#1c1c1c', color: '#fff' }}>SANYO</option>
+            </optgroup>
+            <optgroup label="SHARP" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="SHARP:A907" style={{ background: '#1c1c1c', color: '#fff' }}>SHARP A907</option>
+              <option value="SHARP:A903" style={{ background: '#1c1c1c', color: '#fff' }}>SHARP A903</option>
+              <option value="SHARP:A705" style={{ background: '#1c1c1c', color: '#fff' }}>SHARP A705</option>
+            </optgroup>
+            <optgroup label="TCL" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="TCL:Default" style={{ background: '#1c1c1c', color: '#fff' }}>TCL</option>
+            </optgroup>
+            <optgroup label="TOSHIBA" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="TOSHIBA:Default" style={{ background: '#1c1c1c', color: '#fff' }}>TOSHIBA</option>
+            </optgroup>
+            <optgroup label="WHIRLPOOL" style={{ background: '#1c1c1c', color: '#aaa' }}>
+              <option value="WHIRLPOOL:Default" style={{ background: '#1c1c1c', color: '#fff' }}>WHIRLPOOL</option>
+            </optgroup>
           </select>
         </div>
 

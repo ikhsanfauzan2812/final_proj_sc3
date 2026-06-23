@@ -149,6 +149,13 @@ export default function Analytics() {
                 fcKey="vocForecast" 
                 lastTime={lastDataTime} 
               />
+              <ChartCard 
+                title="Tekanan Udara / Pressure (hPa)" 
+                data={data} 
+                histKey="pressure" 
+                fcKey="pressureForecast" 
+                lastTime={lastDataTime} 
+              />
             </>
           )}
         </section>

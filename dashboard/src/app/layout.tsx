@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Sidebar from "../components/Sidebar";
+import AuthGuard from "../components/AuthGuard";
 
 export const metadata: Metadata = {
   title: "Compact Smart Climate Controller",
@@ -35,10 +36,14 @@ export default function RootLayout({
       </head>
       <body>
         <div className="app-layout">
-          <Sidebar />
-          <main className="main-content">
-            {children}
-          </main>
+          <AuthGuard>
+            <div style={{ display: 'flex', width: '100%' }}>
+              <Sidebar />
+              <main className="main-content">
+                {children}
+              </main>
+            </div>
+          </AuthGuard>
         </div>
       </body>
     </html>
