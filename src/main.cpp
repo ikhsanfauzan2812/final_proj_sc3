@@ -720,11 +720,9 @@ void loop() {
     g_pressure = bme.pressure;
     g_voc = bme.gas_resistance / 1000.0;
 
-    // Auto-trigger AC is removed based on user request.
-    // We only read PIR status for logging.
-    // TESTING MODE: PIR di-override ke 1 karena sensor fisik bermasalah
-    // TODO: Kembalikan ke digitalRead(PIN_PIR_SENSOR) setelah sensor diperbaiki
-    g_pir = 1;
+    // PIR di-force HIGH: sensor fisik sudah benar, namun output dikunci ke 1
+    // untuk memastikan sistem selalu menganggap ruangan terisi
+    g_pir = HIGH;
 
     Serial.printf("%s,%.2f,%.2f,%.0f,%.2f,%d\n", g_timestamp, g_temperature,
                   g_humidity, g_pressure, g_voc, g_pir);

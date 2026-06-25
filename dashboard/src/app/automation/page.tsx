@@ -27,13 +27,9 @@ interface AcSetpoint {
   fan: 'auto' | 'high' | 'low';
 }
 
-function determineSetpoint(comfort: string, pir: number, noMotionMinutes: number): AcSetpoint | null {
-  // TESTING MODE: PIR di-override ke 1 (abaikan kondisi tidak ada orang)
-  // TODO: Hapus baris ini setelah sensor PIR diperbaiki
-  pir = 1;
-
-  // Tidak ada orang > 10 menit → matikan AC
-  if (pir === 0 && noMotionMinutes >= 10) {
+function determineSetpoint(comfort: string, pir: number, noMotionMinutes: number, pirOffDelay: number): AcSetpoint | null {
+  // Tidak ada orang melebihi durasi yang dikonfigurasi → matikan AC
+  if (pir === 0 && noMotionMinutes >= pirOffDelay) {
     return { power: 'off', mode: 'fan', temp: 26, fan: 'auto' };
   }
   switch (comfort) {
@@ -54,6 +50,8 @@ function determineSetpoint(comfort: string, pir: number, noMotionMinutes: number
 export default function Automation() {
   const [autoMode, setAutoMode] = useState(false);
   const [pirAutoMode, setPirAutoMode] = useState(false);
+  const [pirOffDelay, setPirOffDelay] = useState(10); // menit, default 10
+  const [pirOffDelayInput, setPirOffDelayInput] = useState('10'); // string untuk input field
   const [loading, setLoading] = useState(true);
 
   // Autopilot status display
@@ -69,6 +67,7 @@ export default function Automation() {
   // Refs untuk digunakan di dalam closure Realtime tanpa stale state
   const autoModeRef = useRef(false);
   const pirAutoModeRef = useRef(false);
+  const pirOffDelayRef = useRef(10);
   const acModelRef = useRef('SHARP:A907');
   const lastCommandRef = useRef<string | null>(null);
   const pirHistoryRef = useRef<{ pir: number; ts: number }[]>([]);
@@ -96,6 +95,7 @@ export default function Automation() {
   // Sync refs saat autoMode/pirAutoMode berubah
   useEffect(() => { autoModeRef.current = autoMode; }, [autoMode]);
   useEffect(() => { pirAutoModeRef.current = pirAutoMode; }, [pirAutoMode]);
+  useEffect(() => { pirOffDelayRef.current = pirOffDelay; }, [pirOffDelay]);
 
   // ============================================================
   // AUTOPILOT ENGINE — Subscribe Realtime sensor_data
@@ -159,7 +159,7 @@ export default function Automation() {
         const comfort = classifyComfort(temperature, humidity);
 
         // Tentukan setpoint
-        const setpoint = determineSetpoint(comfort, pir ?? 0, noMotionMinutes);
+        const setpoint = determineSetpoint(comfort, pir ?? 0, noMotionMinutes, pirOffDelayRef.current);
         if (!setpoint) return;
 
         // Buat payload perintah
@@ -244,19 +244,22 @@ export default function Automation() {
 
         const { data, error } = await supabase
           .from('app_settings')
-          .select('auto_mode, pir_auto_mode')
+          .select('auto_mode, pir_auto_mode, pir_off_delay')
           .eq('id', 1)
           .single();
         
         if (error) {
           if (error.code === 'PGRST116') {
-            await supabase.from('app_settings').insert([{ id: 1, auto_mode: false, pir_auto_mode: false }]);
+            await supabase.from('app_settings').insert([{ id: 1, auto_mode: false, pir_auto_mode: false, pir_off_delay: 10 }]);
           } else {
             console.error('Error fetching settings:', error);
           }
         } else if (data) {
           setAutoMode(data.auto_mode);
           setPirAutoMode(data.pir_auto_mode || false);
+          const delay = data.pir_off_delay ?? 10;
+          setPirOffDelay(delay);
+          setPirOffDelayInput(String(delay));
         }
       } catch (err) {
         console.error(err);
@@ -308,6 +311,10 @@ export default function Automation() {
       if (payload.new && payload.new.id === 1) {
         if (payload.new.auto_mode !== undefined) setAutoMode(payload.new.auto_mode);
         if (payload.new.pir_auto_mode !== undefined) setPirAutoMode(payload.new.pir_auto_mode);
+        if (payload.new.pir_off_delay !== undefined) {
+          setPirOffDelay(payload.new.pir_off_delay);
+          setPirOffDelayInput(String(payload.new.pir_off_delay));
+        }
       }
     }).subscribe();
 
@@ -342,13 +349,25 @@ export default function Automation() {
     try {
       const { error } = await supabase
         .from('app_settings')
-        .update({ pir_auto_mode: newValue })
+        .update({ pir_auto_mode: newValue, pir_off_delay: pirOffDelay })
         .eq('id', 1);
         
       if (error) {
         setPirAutoMode(!newValue);
         console.error("Gagal mengupdate PIR auto mode:", error);
       }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const savePirOffDelay = async (minutes: number) => {
+    try {
+      const { error } = await supabase
+        .from('app_settings')
+        .update({ pir_off_delay: minutes })
+        .eq('id', 1);
+      if (error) console.error("Gagal menyimpan durasi PIR:", error);
     } catch (err) {
       console.error(err);
     }
@@ -833,6 +852,60 @@ export default function Automation() {
             }}>
               STATUS: {pirAutoMode ? 'AKTIF (AUTO)' : 'NON-AKTIF (MANUAL)'}
             </div>
+
+            {/* Durasi sebelum AC dimatikan — muncul saat pirAutoMode aktif */}
+            {pirAutoMode && (
+              <div style={{
+                marginTop: '30px',
+                width: '100%',
+                padding: '20px',
+                borderRadius: '12px',
+                background: 'rgba(0,0,0,0.25)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}>
+                <div style={{ fontSize: '13px', color: '#aaa', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Matikan AC setelah tidak ada gerakan selama
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <input
+                    type="number"
+                    min={1}
+                    max={60}
+                    value={pirOffDelayInput}
+                    onChange={(e) => setPirOffDelayInput(e.target.value)}
+                    onBlur={() => {
+                      const parsed = parseInt(pirOffDelayInput, 10);
+                      const clamped = isNaN(parsed) ? 10 : Math.max(1, Math.min(60, parsed));
+                      setPirOffDelay(clamped);
+                      setPirOffDelayInput(String(clamped));
+                      savePirOffDelay(clamped);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
+                    }}
+                    style={{
+                      width: '80px',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      background: 'rgba(255,255,255,0.08)',
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      color: '#fff',
+                      fontSize: '20px',
+                      fontWeight: '700',
+                      textAlign: 'center',
+                      outline: 'none',
+                    }}
+                  />
+                  <span style={{ color: '#ccc', fontSize: '15px' }}>menit</span>
+                  <span style={{ marginLeft: 'auto', fontSize: '12px', color: '#555', fontStyle: 'italic' }}>
+                    (1–60 menit)
+                  </span>
+                </div>
+                <div style={{ marginTop: '10px', fontSize: '12px', color: '#666' }}>
+                  Tekan Enter atau klik di luar kolom untuk menyimpan.
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
