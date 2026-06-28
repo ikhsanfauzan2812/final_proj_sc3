@@ -321,23 +321,21 @@ export default function Dashboard() {
   let comfortBorder = "transparent";
 
   if (latestData) {
-    if (latestData.humidity <= 64.98) {
+    if (latestData.humidity > 79.99) {
+      comfortStatus = "Tidak Nyaman";
+      comfortColor = "#e74c3c";
+      comfortBg = "rgba(231, 76, 60, 0.2)";
+      comfortBorder = "#e74c3c";
+    } else if (latestData.temperature <= 29.01) {
       comfortStatus = "Nyaman";
       comfortColor = "#2ecc71";
       comfortBg = "rgba(46, 204, 113, 0.2)";
       comfortBorder = "#2ecc71";
     } else {
-      if (latestData.temperature <= 32.00) {
-        comfortStatus = "Kurang Nyaman";
-        comfortColor = "#f1c40f";
-        comfortBg = "rgba(241, 196, 15, 0.2)";
-        comfortBorder = "#f1c40f";
-      } else {
-        comfortStatus = "Tidak Nyaman";
-        comfortColor = "#e74c3c";
-        comfortBg = "rgba(231, 76, 60, 0.2)";
-        comfortBorder = "#e74c3c";
-      }
+      comfortStatus = "Kurang Nyaman";
+      comfortColor = "#f1c40f";
+      comfortBg = "rgba(241, 196, 15, 0.2)";
+      comfortBorder = "#f1c40f";
     }
   }
 

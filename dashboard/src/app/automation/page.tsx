@@ -6,15 +6,16 @@ import { Power, Droplets, Snowflake, Wind, Flame, Plus, Minus, ChevronDown } fro
 
 // ============================================================
 // DECISION TREE LOGIC (sesuai model yang dilatih)
-// Rules:
-//   humidity <= 65.03 → Nyaman
-//   humidity > 65.03 AND temperature <= 31.99 → Kurang Nyaman
-//   humidity > 65.03 AND temperature > 31.99  → Tidak Nyaman
+// Berdasarkan Thermal Comfort Index (TCI) — Hendrawati et al. (2025), Table I
+// Rules (hasil optimal split decision tree):
+//   humidity <= 79.99 AND temperature <= 29.01 → Nyaman
+//   humidity <= 79.99 AND temperature >  29.01 → Kurang Nyaman
+//   humidity >  79.99                          → Tidak Nyaman
 // ============================================================
 function classifyComfort(temperature: number, humidity: number): string {
-  if (humidity <= 65.03) return 'Nyaman';
-  if (temperature <= 31.99) return 'Kurang Nyaman';
-  return 'Tidak Nyaman';
+  if (humidity > 79.99) return 'Tidak Nyaman';
+  if (temperature <= 29.01) return 'Nyaman';
+  return 'Kurang Nyaman';
 }
 
 // ============================================================
